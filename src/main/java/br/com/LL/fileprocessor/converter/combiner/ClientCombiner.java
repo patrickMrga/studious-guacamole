@@ -2,20 +2,18 @@ package br.com.LL.fileprocessor.converter.combiner;
 
 import br.com.LL.fileprocessor.model.Client;
 import br.com.LL.fileprocessor.model.Order;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Component
-@Slf4j
 public class ClientCombiner {
     
+    public ClientCombiner() { }
+    
     public Collection<Client> joinClientsById(Collection<Client> clients) {
-        log.info("Combining " + clients.size() + " clients");
+        System.out.println("Combining " + clients.size() + " clients");
 
         Collection<Client> combinedClients = clients.stream().collect(Collectors.toMap(Client::getUserId, Function.identity(), (left, right) -> {
             var orders = Stream.concat(left.getOrders().stream(), right.getOrders().stream()).toList();
@@ -30,7 +28,7 @@ public class ClientCombiner {
             return left;
         })).values();
 
-        log.info("Finished combining into " + combinedClients.size() + " clients");
+        System.out.println("Finished combining into " + combinedClients.size() + " clients");
         
         return combinedClients;
     }

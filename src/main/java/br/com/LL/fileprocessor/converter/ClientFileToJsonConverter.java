@@ -4,27 +4,38 @@ import br.com.LL.fileprocessor.converter.combiner.ClientCombiner;
 import br.com.LL.fileprocessor.converter.reader.ClientFileReader;
 import br.com.LL.fileprocessor.converter.writer.ClientWriter;
 import br.com.LL.fileprocessor.service.FileService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
-@Slf4j
-@AllArgsConstructor
+
 public class ClientFileToJsonConverter {
     
-    private FileService fileService;
+    private final FileService fileService;
     
-    private ClientFileReader clientFileReader;
+    private final ClientFileReader clientFileReader;
     
-    private ClientCombiner clientCombiner;
+    private final ClientCombiner clientCombiner;
     
-    private ClientWriter clientWriter;
-    
-    public void convertFiles(String path) {
-        log.info("Processing file/directory " + path);
+    private final ClientWriter clientWriter;
+
+    public ClientFileToJsonConverter(FileService fileService, ClientFileReader clientFileReader, ClientCombiner clientCombiner, ClientWriter clientWriter) {
+        this.fileService = fileService;
+        this.clientFileReader = clientFileReader;
+        this.clientCombiner = clientCombiner;
+        this.clientWriter = clientWriter;
+    }
+
+    public void convertFiles(String ... args) {
+        var argsCount = args.length;
+        if (argsCount != 1) {
+            System.out.println("Invalid number of arguments: " + argsCount + 
+                    ". Expected only one arg describing file/directory path to process");
+            
+            throw new IllegalArgumentException();
+        }
+        
+        var path = args[0];
+        System.out.println("Processing file/directory " + path);
         
         var inputFilePaths = fileService.getFilePaths(path);
         inputFilePaths.forEach(p -> {

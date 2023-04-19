@@ -3,13 +3,11 @@ package br.com.LL.fileprocessor.converter.reader;
 import br.com.LL.fileprocessor.model.Client;
 import br.com.LL.fileprocessor.model.Order;
 import br.com.LL.fileprocessor.model.Product;
-import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Map;
 
-@Component
 public class ClientMapper implements LineToObjectMapper<Client> {
     final static Map<Integer, Field> fields = Map.of(
             1, new Field("userId", 0, 10),
@@ -25,7 +23,7 @@ public class ClientMapper implements LineToObjectMapper<Client> {
     }
 
     @Override
-    public Client convert(String line) throws ParseException {
+    public Client convert(String line) throws ParseException, NumberFormatException {
         var product = new Product(
                 readNumber(line, fields.get(4)),
                 readDecimal(line, fields.get(5))

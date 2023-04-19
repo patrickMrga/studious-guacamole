@@ -3,36 +3,63 @@ package br.com.LL.fileprocessor.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-@AllArgsConstructor
-@Builder
 @JsonPropertyOrder({ "order_id", "total", "date", "products"})
 public class Order {
-
-    @Getter
-    @Setter
+    
     @JsonProperty("order_id")
     private long orderId;
-
-    @Getter
-    @Setter
+    
     private BigDecimal total;
-
-    @Getter
-    @Setter
+    
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
-
-    @Getter
-    @Setter
-    private List<Product> products;
     
+    private List<Product> products;
+
+    public Order() {
+    }
+
+    public Order(long orderId, BigDecimal total, Date date, List<Product> products) {
+        this.orderId = orderId;
+        this.total = total;
+        this.date = date;
+        this.products = products;
+    }
+
+    public long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }

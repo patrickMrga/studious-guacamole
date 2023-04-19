@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClientCombinerTest {
     
-    ClientCombiner combiner = new ClientCombiner();
+    private final ClientCombiner combiner = new ClientCombiner();
     
     @Test
     public void givenCollectionOfClients_whenSameClientIsRepeated_thenShouldCombineOrdersOfSameId_andReturnOnlyOneClient() {

@@ -1,21 +1,43 @@
 package br.com.LL.fileprocessor.converter.reader;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-@AllArgsConstructor
-@Builder
 public class Field {
-    @Getter
-    @Setter
+    
     private String name;
-    @Getter
-    @Setter
+
     private int start;
-    @Getter
-    @Setter
+
     private int end;
 
+    public Field() {
+    }
+
+    public Field(String name, int start, int end) {
+        this.name = name;
+        this.start = start;
+        this.end = end;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getStart() {
+        return start;
+    }
+
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void setEnd(int end) {
+        this.end = end;
+    }
 }

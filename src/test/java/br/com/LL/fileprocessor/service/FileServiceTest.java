@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FileServiceTest {
@@ -52,10 +51,10 @@ public class FileServiceTest {
             Files.createFile(outputFilePath);
         }
 
-        assertThat(outputFilePath).exists();
+        assertTrue(Files.exists(outputFilePath));
         
         Path createdFilePath = fileService.createOutputFilePath("src/test/resources/data/input.txt");
         assertEquals("src/test/resources/data/input_output.json", createdFilePath.toString());
-        assertThat(outputFilePath).doesNotExist();
+        assertFalse(Files.exists(outputFilePath));
     }
 }

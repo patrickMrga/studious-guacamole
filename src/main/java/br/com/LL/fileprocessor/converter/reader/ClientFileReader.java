@@ -1,9 +1,6 @@
 package br.com.LL.fileprocessor.converter.reader;
 
 import br.com.LL.fileprocessor.model.Client;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,15 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Component
-@Slf4j
-@AllArgsConstructor
 public class ClientFileReader {
     
-    private ClientMapper clientMapper;
+    private final ClientMapper clientMapper;
+    
+    public ClientFileReader(ClientMapper mapper) {
+        this.clientMapper = mapper;
+    }
     
     public List<Client> readFile(Path inputFilePath) {
-        log.info("Reading file " + inputFilePath.getFileName());
+        System.out.println("Reading file " + inputFilePath.getFileName());
         
         var clients = new ArrayList<Client>();
         long lineIndex = 0L;
@@ -33,13 +31,17 @@ public class ClientFileReader {
                 lineIndex++;
                 clients.add(clientMapper.convert(line));
             }
-        } catch (IOException | ParseException e) {
-            log.error("Error parsing line " + lineIndex + " from file " + inputFilePath.getFileName(), e);
+        } catch (ParseException | NumberFormatException e) {
+            System.out.println("Error parsing line " + lineIndex + " from file " + inputFilePath.getFileName() + " - " + e.getMessage());
+            
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            System.out.println("Error reading input file " + inputFilePath + " - " + e.getMessage());
             
             throw new RuntimeException(e);
         }
-        
-        log.info("Finished reading file " + inputFilePath.getFileName());
+
+        System.out.println("Finished reading file " + inputFilePath.getFileName());
         
         return clients;
     }

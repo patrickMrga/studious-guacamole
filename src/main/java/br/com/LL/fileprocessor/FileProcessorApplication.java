@@ -1,26 +1,24 @@
 package br.com.LL.fileprocessor;
 
 import br.com.LL.fileprocessor.converter.ClientFileToJsonConverter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import br.com.LL.fileprocessor.converter.combiner.ClientCombiner;
+import br.com.LL.fileprocessor.converter.reader.ClientFileReader;
+import br.com.LL.fileprocessor.converter.reader.ClientMapper;
+import br.com.LL.fileprocessor.converter.writer.ClientWriter;
+import br.com.LL.fileprocessor.service.FileService;
 
 
-@SpringBootApplication
-public class FileProcessorApplication implements CommandLineRunner {
-
-	@Autowired
-	private ClientFileToJsonConverter clientFileToJsonConverter;
+public class FileProcessorApplication {
 	
 	public static void main(String[] args) {
-		SpringApplication.run(FileProcessorApplication.class, args);
+		ClientFileToJsonConverter clientFileToJsonConverter = new ClientFileToJsonConverter(
+				new FileService(),
+				new ClientFileReader(new ClientMapper()),
+				new ClientCombiner(),
+				new ClientWriter()
+		);
+		
+		clientFileToJsonConverter.convertFiles(args);
 	}
-
-	@Override
-	public void run(String... args) {
-		var path = args[0];
-
-		clientFileToJsonConverter.convertFiles(path);
-	}
+	
 }
